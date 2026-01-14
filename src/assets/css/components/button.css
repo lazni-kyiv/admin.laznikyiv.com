@@ -1,0 +1,201 @@
+@import url(../root.css);
+@import url(../fonts.css);
+
+button:not(.fc-button-group, .calendar__nav__btn, .sidebar-expend), a.secondary {
+    font-family: var(--font-secondary);
+    background: var(--primary);
+    border: var(--primary-light) solid 1px !important;
+    color: #ffffff !important;
+    border-radius: 0.5rem !important;
+    padding: 0.25rem !important;
+    border: none;
+    font-size: 1rem;
+    transition: all 500ms !important;
+    padding-left: .75rem !important;
+    padding-right: .75rem !important;
+    text-decoration: none;   
+   box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+}
+
+button.close {
+    padding-left: 0.45rem !important;
+    padding-right: 0.45rem !important;
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.15rem !important;
+}
+button:not(.calendar__nav__btn):focus:active, a.secondary:focus:active {
+    background-color: var(--primary) !important;
+    color: white !important;
+    /* border: white solid;
+    scale: 0.98; */
+   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+button.secondary:focus:active {
+    background-color: #10272438 !important;
+    color: var(--primary) !important;
+}
+
+button:not(.calendar__nav__btn):hover {
+    background-color: #22413c !important;
+    cursor: pointer;
+}
+
+button.secondary, a.secondary {
+    background: rgb(255, 255, 255) !important;
+    color: var(--primary) !important;
+    border: var(--primary-light) solid 1px !important;
+}
+
+button.secondary:hover,  a.secondary:hover {
+    background-color: var(--primary-bg) !important;
+    color: var(--primary-light);
+    border: var(--primary-light) solid 1px;
+}
+
+button.danger {
+    background-color: rgb(162, 42, 42) !important;
+    border-color: rgb(162, 42, 42) !important;
+}
+
+button.danger:hover {
+    /* color: rgb(162, 42, 42) !important; */
+    border-color: rgb(162, 42, 42) !important;
+    background-color: rgb(178, 48, 48) !important;
+}
+
+button.secondary:disabled {
+    color: grey !important;
+    border-color: grey !important;
+    cursor:not-allowed;
+}
+
+a.sm {
+    padding: 1px !important;
+    aspect-ratio: 1;
+  height: 40px !important;
+}
+button.sm {
+    padding: 1px !important;
+    aspect-ratio: 1;
+  height: 40px !important;
+}
+
+
+
+button:disabled {
+    background: rgba(203, 203, 203, 0.426) !important;
+    cursor: not-allowed  !important;
+    border-color: rgba(203, 203, 203, 0.426)  !important;
+    color: rgb(152, 152, 152) !important;
+}
+
+button:disabled:hover {
+    background-color: rgba(175, 175, 175, 0.426) !important;
+}
+
+button.copy-button {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+   display: flex;
+   width: min-content !important;
+   gap: 0.25rem;
+   padding-left: 0.75rem !important;
+   padding-right: 0.75rem !important;
+   align-items: center;
+   justify-content: center;
+   color: grey !important;
+   border-color: grey !important;
+}
+
+button.copy-button p {
+    color: grey;
+    opacity: 1;
+}
+
+.tabs button {
+    background-color: transparent;
+    color: var(--primary) !important;
+    border-radius: 0 !important;
+    border-style: none !important;
+    cursor: pointer !important;
+    border-top-left-radius: 0.5rem !important;
+    border-top-right-radius: 0.5rem !important;
+    border-bottom:rgba(191, 191, 191, 0.588)  solid 2px !important;
+    box-shadow: none !important;
+}
+.tabs button:not(.primary):hover {
+    background-color: rgba(214, 214, 214, 0.292) !important;
+}
+.tabs {
+    gap: 0px !important;
+}
+.tabs button.primary {
+    border-bottom:var(--primary)  solid 2px !important;
+}
+.tabs button:hover, .tabs button:focus:active {
+    background-color: transparent !important;
+    color: var(--primary) !important;
+    box-shadow: 0 0 #0000 !important;
+}
+
+.sidebar-expend {
+  position: absolute;
+  right: 0;
+  top:0;
+  transform: translateX(50%) rotate(0deg);
+  z-index: 100000000000 !important;
+  padding-right: 0px !important; 
+  padding-left: 0px !important; 
+  padding-top: 0px !important; 
+  padding-bottom: 0px !important; 
+  width: 1rem;
+  color: white;
+  height: 1rem;
+  color: rgba(255, 255, 255, 0.358);
+  opacity: 1;
+  border-style: none;
+  background-color: var(--primary) !important;
+  backdrop-filter: blur(100px);
+  border-radius: 1000px !important;
+  transition: all 1s;
+}
+
+.sidebar.open .sidebar-expend {
+      transform: translateX(50%) rotate(180deg);
+}
+
+
+/* CSS */
+.kbutton{
+  background-color: #fff;
+  border: 1px solid #d5d9d9;
+  border-radius: 8px;
+  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+  box-sizing: border-box;
+  color: #0f1111;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Amazon Ember",sans-serif;
+  font-size: 13px;
+  line-height: 29px;
+  padding: 0 10px 0 11px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  width: 100px;
+}
+
+button:hover {
+  background-color: #f7fafa;
+}
+
+.button-13:focus {
+  border-color: #008296;
+  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+  outline: 0;
+}

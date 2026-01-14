@@ -1,0 +1,58 @@
+/* ========================================
+   FONTS
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+@font-face {
+    font-family: "Lazni";
+    src: url("../font/Brice-Regular.woff") format("truetype");
+}
+
+/* ========================================
+   CSS VARIABLES
+   ======================================== */
+
+:root {
+    /* Primary Colors */
+    --primary: #102724;
+    --primary-light: #1d4641;
+    --primary-hover: #245751;
+    --primary-active: #1d4641;
+    --primary-shade: rgba(62, 147, 137, 0.408);
+    --primary-input: #10b0a0;
+    --primary-input-bg: #3f938988;
+
+    /* Secondary Colors */
+    --secondary: #ddac8a;
+    --secondary-h: #ecbe9d;
+    --secondary-a: #c79c7c;
+    --secondary-after: #c79c7c78;
+
+    /* Legacy Colors (consider removing if unused) */
+    --family: rgb(103, 136, 235);
+    --green: rgb(108, 208, 116);
+    --grey: rgb(155, 155, 155);
+
+    /* Background Colors */
+    --bg: #f1f6f2;
+    --bg-light: rgb(250, 250, 250);
+
+    /* Calendar */
+    --fc-today-bg-color: rgba(52, 141, 131, 0.103);
+
+    /* Typography */
+    --font-primary: "Lazni";
+    --font-secondary: 'Mulish';
+
+    /* Spacing & Layout */
+    --padding: 0.5rem;
+    --border-radius: 0.5rem;
+    --border-radius-lg: 1rem;
+
+    /* Effects */
+    --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --border: #eeeeee solid 1px;
+}

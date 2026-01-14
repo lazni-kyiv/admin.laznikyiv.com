@@ -1,0 +1,49 @@
+@import url("../root.css");
+@import url("../fonts.css");
+@import url("../components/input.css");
+@import url("../components/button.css");
+
+
+* {
+    margin: 0px;
+    
+}
+*:focus {
+    outline: none;
+}
+body {
+    color: var(--primary);
+    font-family: var(--font-secondary);
+    padding: 0.5rem;
+    font-weight: 400;
+}
+h3, h4 {
+    font-family: var(--font-secondary);
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+.form-input {
+    margin-bottom: 12px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+.c {
+    width: 100%;
+    text-align: center;
+}
+
+ol { counter-reset: item }
+li{ display: block; font-weight: 600; }
+ol ol li {font-weight: 400;}
+
+span.req {
+    color: red;
+}
+
+h1 {
+    font-family: var(--font-primary);
+    color: var(--primary)
+}

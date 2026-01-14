@@ -1,0 +1,5 @@
+a {
+    color: var(--primary);
+    position: relative;
+    width: max-content;
+}
