@@ -1,5 +1,5 @@
 <template>
-  <AnalyticsCard title="Джерело бронювань" icon="chart-white">
+  <AnalyticsCard title="Джерело бронювань" icon="pie-chart">
     <v-chart :option="chartOption" autoresize style="height: 320px" />
   </AnalyticsCard>
 </template>
@@ -31,7 +31,16 @@ const props = defineProps({
   }
 })
 
-const COLORS = ['#2f8051', '#42d778', '#ea580c', '#dc2626', '#0891b2']
+const COLORS = {
+  tg: '#229ED9',
+  i: '#E4405F',
+  v: '#7360F2',
+  w: '#25D366',
+  t: '#666',
+  b: '#111',
+  unknown: '#ccc'
+}
+
 
 const typeLabels = {
   tg: "Телеграм",
@@ -52,11 +61,14 @@ const chartOption = computed(() => {
 
   const data = Object.entries(typeCounts).map(([type, count]) => ({
     name: typeLabels[type] || type,
-    value: count
+    value: count,
+     itemStyle: {
+    color: COLORS[type] || COLORS.unknown
+  }
   }))
 
   return {
-    color: COLORS,
+
     tooltip: {
       trigger: 'item',
       formatter: '{b}: <strong>{c}</strong> бронювань ({d}%)'

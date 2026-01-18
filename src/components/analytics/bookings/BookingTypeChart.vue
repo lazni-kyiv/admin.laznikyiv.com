@@ -1,5 +1,5 @@
 <template>
-  <AnalyticsCard title="Типи бронювань" icon="chart-white">
+  <AnalyticsCard title="Типи бронювань" icon="pie-chart">
     <v-chart :option="chartOption" autoresize style="height: 320px" />
   </AnalyticsCard>
 </template>

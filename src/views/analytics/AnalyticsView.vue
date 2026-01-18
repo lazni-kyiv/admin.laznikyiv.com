@@ -42,6 +42,9 @@
 <p class="comment">Бот</p>
           <div class="info-grid info-2">
             <BotChart :bookings="filteredBookings"/>
+            <BotByMonth/>
+            <BotByWeekday/>
+            <BotByHour/>
           </div>
 
         
@@ -73,6 +76,9 @@ import ChanFillChart from "@/components/analytics/lazni/ChanFillChart.vue";
 import LazniChan from "@/components/analytics/lazni/LazniChan.vue";
 import GuestsByMonthChart from "@/components/analytics/guests/GuestsByMonthChart.vue";
 import BotChart from "@/components/analytics/bot/BotChart.vue";
+import BotByMonth from "@/components/analytics/bot/BotByMonth.vue";
+import BotByWeekday from "@/components/analytics/bot/BotByWeekday.vue";
+import BotByHour from "@/components/analytics/bot/BotByHour.vue";
 // import BookingTypesChart from "@/components/analytics/BookingTypesChart.vue";
 // import BookingSourceChart from "@/components/analytics/BookingSourceChart.vue";
 // import LazniaChanChart from "@/components/analytics/LazniaChanChart.vue";

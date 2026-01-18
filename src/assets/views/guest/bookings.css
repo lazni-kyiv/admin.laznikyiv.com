@@ -463,7 +463,10 @@ td mark {
     margin-bottom: 0.5rem;
     border-radius: 1rem;
 }
-
+* > .services-section{
+  border: none;
+  padding: 0;
+}
 .services-section h4 {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;

@@ -1,0 +1,79 @@
+.ui-tab-list {
+  display: flex;
+  padding: var(--space-1);
+  gap: var(--space-1);
+  width: fit-content;
+  border-radius: var(--radius-lg);
+  border: var(--border-default);
+  overflow-y: hidden;
+}
+
+.ui-tab {
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-primary);
+    border: none;
+    position: relative;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+
+}
+
+.ui-tab:focus-within {
+    outline: none;
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 10%, transparent);    
+}
+/* .ui-tab:first-child {
+    border-top-left-radius:  var(--radius-md);
+}
+.ui-tab:last-child {
+    border-top-right-radius:  var(--radius-md);
+    border-right: var(--border-default);
+} */
+.ui-tab:hover {
+  background: var(--neutral-50);
+}
+
+.ui-tab.active {
+  /* background: var(--primary); */
+  color: var(--primary);
+  
+  /* border-color: var(--primary); */
+}
+.ui-tab::after {
+    position: absolute;
+    content: " ";
+    bottom: -.25rem;
+    opacity: 0.1;
+    left: 50%;
+    transform: translateX(-50%) translateY(0.25rem);
+    height: .25rem;
+    width: calc(100% - 2 * var(--radius-md));
+    background-color: var(--primary);
+    border-radius: 9999px;
+    transition: all 0.3s ease
+
+}
+
+.ui-tab.active::after {
+ transform: translateX(-50%) translateY(0.0625rem);
+    opacity: 1;
+
+}
+.ui-tab-panels {
+  padding: var(--space-4);
+
+  border-radius: var(--radius-md);
+  border-top-left-radius: 0;
+}
+
+.ui-tab-panel {
+  animation: fade 0.3s ease;
+}
+
+@keyframes fade {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}

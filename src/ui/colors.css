@@ -1,0 +1,170 @@
+@import url("https://fonts.googleapis.com/css?family=Manrope:200,300,400,500,600,700,800");
+@import url("./root.css");
+
+/* ======================================================
+   Pryima UI – Design
+   ====================================================== */
+
+:root {
+  /* ====================================================
+     Primary scale
+     ==================================================== */
+  --primary-900: color-mix(in srgb, var(--primary) 65%, black);
+  --primary-800: color-mix(in srgb, var(--primary) 75%, black);
+  --primary-700: color-mix(in srgb, var(--primary) 85%, black);
+  --primary-600: color-mix(in srgb, var(--primary) 95%, black);
+  --primary-500: var(--primary);
+  --primary-400: color-mix(in srgb, var(--primary) 70%, white);
+  --primary-300: color-mix(in srgb, var(--primary) 55%, white);
+  --primary-200: color-mix(in srgb, var(--primary) 40%, white);
+  --primary-100: color-mix(in srgb, var(--primary) 25%, white);
+  --primary-50: color-mix(in srgb, var(--primary) 10%, white);
+
+  /* ====================================================
+     Secondary scale
+     ==================================================== */
+  --secondary-900: color-mix(in srgb, var(--secondary) 65%, black);
+  --secondary-800: color-mix(in srgb, var(--secondary) 75%, black);
+  --secondary-700: color-mix(in srgb, var(--secondary) 85%, black);
+  --secondary-600: color-mix(in srgb, var(--secondary) 95%, black);
+  --secondary-500: var(--secondary);
+  --secondary-400: color-mix(in srgb, var(--secondary) 70%, white);
+  --secondary-300: color-mix(in srgb, var(--secondary) 55%, white);
+  --secondary-200: color-mix(in srgb, var(--secondary) 40%, white);
+  --secondary-100: color-mix(in srgb, var(--secondary) 25%, white);
+  --secondary-50: color-mix(in srgb, var(--secondary) 10%, white);
+
+  /* ====================================================
+     Success scale
+     ==================================================== */
+  --success-900: color-mix(in srgb, var(--success) 65%, black);
+  --success-800: color-mix(in srgb, var(--success) 75%, black);
+  --success-700: color-mix(in srgb, var(--success) 85%, black);
+  --success-600: color-mix(in srgb, var(--success) 95%, black);
+  --success-500: var(--success);
+  --success-400: color-mix(in srgb, var(--success) 70%, white);
+  --success-300: color-mix(in srgb, var(--success) 55%, white);
+  --success-200: color-mix(in srgb, var(--success) 40%, white);
+  --success-100: color-mix(in srgb, var(--success) 25%, white);
+  --success-50: color-mix(in srgb, var(--success) 10%, white);
+
+  /* ====================================================
+     Warning scale
+     ==================================================== */
+  --warning-900: color-mix(in srgb, var(--warning) 60%, black);
+  --warning-800: color-mix(in srgb, var(--warning) 70%, black);
+  --warning-700: color-mix(in srgb, var(--warning) 80%, black);
+  --warning-600: color-mix(in srgb, var(--warning) 90%, black);
+  --warning-500: var(--warning);
+  --warning-400: color-mix(in srgb, var(--warning) 70%, white);
+  --warning-300: color-mix(in srgb, var(--warning) 55%, white);
+  --warning-200: color-mix(in srgb, var(--warning) 40%, white);
+  --warning-100: color-mix(in srgb, var(--warning) 25%, white);
+  --warning-50: color-mix(in srgb, var(--warning) 10%, white);
+
+  /* ====================================================
+     Danger scale
+     ==================================================== */
+  --danger-900: color-mix(in srgb, var(--danger) 65%, black);
+  --danger-800: color-mix(in srgb, var(--danger) 75%, black);
+  --danger-700: color-mix(in srgb, var(--danger) 85%, black);
+  --danger-600: color-mix(in srgb, var(--danger) 95%, black);
+  --danger-500: var(--danger);
+  --danger-400: color-mix(in srgb, var(--danger) 70%, white);
+  --danger-300: color-mix(in srgb, var(--danger) 55%, white);
+  --danger-200: color-mix(in srgb, var(--danger) 40%, white);
+  --danger-100: color-mix(in srgb, var(--danger) 25%, white);
+  --danger-50: color-mix(in srgb, var(--danger) 10%, white);
+
+  /* ====================================================
+     Info scale
+     ==================================================== */
+  --info-900: color-mix(in srgb, var(--info) 65%, black);
+  --info-800: color-mix(in srgb, var(--info) 75%, black);
+  --info-700: color-mix(in srgb, var(--info) 85%, black);
+  --info-600: color-mix(in srgb, var(--info) 95%, black);
+  --info-500: var(--info);
+  --info-400: color-mix(in srgb, var(--info) 70%, white);
+  --info-300: color-mix(in srgb, var(--info) 55%, white);
+  --info-200: color-mix(in srgb, var(--info) 40%, white);
+  --info-100: color-mix(in srgb, var(--info) 25%, white);
+  --info-50: color-mix(in srgb, var(--info) 10%, white);
+
+  /* ====================================================
+     Neutral neutral (derived from primary)
+     ==================================================== */
+  --neutral-900: color-mix(in srgb, hsl(0 0% 0%), var(--primary) 50%);
+  --neutral-800: color-mix(in srgb, hsl(0 0% 18%), var(--primary) 45%);
+  --neutral-700: color-mix(in srgb, hsl(0 0% 26%), var(--primary) 40%);
+  --neutral-600: color-mix(in srgb, hsl(0 0% 34%), var(--primary) 35%);
+  --neutral-500: color-mix(in srgb, hsl(0 0% 42%), var(--primary) 30%);
+  --neutral-400: color-mix(in srgb, hsl(0 0% 55%), var(--primary) 25%);
+  --neutral-300: color-mix(in srgb, hsl(0 0% 70%), var(--primary) 20%);
+  --neutral-200: color-mix(in srgb, hsl(0 0% 82%), var(--primary) 15%);
+  --neutral-100: color-mix(in srgb, hsl(0 0% 92%), var(--primary) 10%);
+  --neutral-50: color-mix(in srgb, hsl(0 0% 97%), var(--primary) 5%);
+
+  /* ====================================================
+     Semantic tokens
+     ==================================================== */
+  --bg-app: var(--neutral-50);
+  --bg-card: #ffffff;
+  --bg-muted: var(--neutral-100);
+
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-600);
+  --text-muted: var(--neutral-400);
+  --text-inverse: #ffffff;
+
+  --border-color: var(--neutral-200);
+  --border-strong: var(--neutral-300);
+
+  /* ====================================================
+     Borders & radius
+     ==================================================== */
+  --border-1: 1px;
+  --border-2: 2px;
+
+  --border-default: var(--border-1) solid var(--border-color);
+  --border-soft: var(--border-1) solid var(--neutral-100);
+  --border-primary: var(--border-1) solid var(--primary);
+  --border-success: var(--border-1) solid var(--success);
+  --border-warning: var(--border-1) solid var(--warning);
+  --border-danger: var(--border-1) solid var(--danger);
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+
+  /* ====================================================
+     Spacing
+     ==================================================== */
+  --space-1: 0.25rem !important;
+  --space-2: 0.5rem !important;
+  --space-3: 0.75rem !important;
+  --space-4: 1rem !important;
+  --space-5: 1.25rem !important;
+  --space-6: 1.5rem !important;
+  --space-8: 2rem !important;
+  --space-10: 2.5rem !important;
+
+  /* ====================================================
+     Shadows
+     ==================================================== */
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px rgb(0 0 0 / 0.15);
+
+  /* ====================================================
+     Typography & motion
+     ==================================================== */
+  --font-primary: "Manrope", system-ui, sans-serif;
+
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--primary) 25%, transparent);
+}

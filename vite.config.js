@@ -10,12 +10,8 @@ export default defineConfig({
     vueDevTools(),
     VitePWA({
       registerType: "autoUpdate",
-
-      // ❌ Do NOT generate a service worker
       strategies: "registerSW",
-
-      // Just copy static files
-      includeAssets: ["favicon.svg", "robots.txt", "sw.js"],
+      includeAssets: ["favicon.svg", "robots.txt"],
 
       manifest: {
         name: "Lazni Admin",

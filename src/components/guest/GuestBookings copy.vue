@@ -92,7 +92,7 @@
                   fill="white"></path>
               </svg>
             </button>
-             <button class="icon-btn" @click="createInvoice(booking)"
+             <!-- <button class="icon-btn" @click="createInvoice(booking)"
               title="Редагувати бронювання">
 
               <svg data-v-f30a09f7="" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -104,7 +104,7 @@
                   d="M18.4764 11.537L12.463 5.52363L4.35808 13.6286C3.66361 14.3231 3.20349 15.2172 3.04202 16.1859L2.26021 20.8767C2.22039 21.1156 2.29841 21.3591 2.46968 21.5303C2.64095 21.7016 2.88439 21.7796 3.12331 21.7398L7.81417 20.958C8.78294 20.7965 9.67706 20.3364 10.3715 19.642L18.4764 11.537Z"
                   fill="white"></path>
               </svg>
-            </button>
+            </button> -->
           </div>
         </div>
 </div>
@@ -819,6 +819,7 @@ function createBooking() {
     date: fullDateRange, // e.g. "12.12.25T12:00-14.12.25T09:00"
     meta: JSON.stringify({
       g: meta.guests,
+      s: meta.source,
       ...(meta.description && { d: meta.description }),
       l: {
         ...(lazniStr && { l: lazniStr }),
@@ -878,7 +879,7 @@ function parseMetaToDaily(metaStr, checkIn, checkOut) {
   const cMap = {};
   cArr.forEach(s => {
     const [date, t, f] = s.split(":");
-    const fills = f === 'plain' ? [] : f.includes(",") ? f.split(",") : [f];
+    const fills = f === null ? [] : f.includes(",") ? f.split(",") : [f];
     cMap[date] = { booked: true, t: Number(t), f: fills };
   });
 
@@ -1031,7 +1032,7 @@ function updateBooking() {
       }
 
       if (day.c.booked && day.c.t > 0) {
-        const fills = day.c.f.length ? day.c.f.join(',') : 'plain';
+        const fills = day.c.f.length ? day.c.f.join(',') : null;
         chanParts.push(`${dayKey}:${day.c.t}:${fills}`);
       }
     });
@@ -1101,6 +1102,10 @@ const sources = ref([
   {
     label: "Телефон",
     value: "t"
+  },
+  {
+    label: "Бот",
+    value: "b"
   }
 ])
 
@@ -1331,7 +1336,8 @@ function saveServices() {
     services: activeServices,
     kram: activeKram
   }
-
+  console.log(activeServices)
+  console.log(newBooking.value.meta)
    // console.log('Saved services:', newBooking.value.meta.poslugy)
   toastr.success('Послуги додано')
   closeServicesModal()

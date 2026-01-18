@@ -51,13 +51,17 @@ const api = {
     return res.json();
   },
   verify: async () => {
-    const res = await fetch(`${API_URL}/auth/verify`, {
-      method: "GET",
-      credentials: "include",
-    });
+  const res = await fetch(`${API_URL}/auth/verify`, {
+    method: "GET",
+    credentials: "include",
+     headers: {
+      "Accept": "application/json"
+    }
+  });
 
-    return res.json();
-  },
+  return res.json();
+},
+
   logout: async () => {
     const res = await fetch(`${API_URL}/auth/logout`, {
       method: "POST",
@@ -268,7 +272,6 @@ const api = {
   },
   reports: {
      list: async () => {
-      if (cache.bookings) return cache.bookings;
 
       const res = await fetch(`${API_URL}/reports`, {
         method: "GET",

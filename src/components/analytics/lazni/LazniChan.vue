@@ -1,5 +1,5 @@
 <template>
-  <AnalyticsCard title="Тип бронювань" icon="chart-white">
+  <AnalyticsCard title="Тип бронювань" icon="pie-chart">
     <v-chart :option="chartOption" autoresize style="height: 320px" />
   </AnalyticsCard>
 </template>
@@ -31,7 +31,7 @@ const props = defineProps({
 })
 
 // Colors for the chart
-const COLORS = ['#0891b2', '#ea580c', '#16a34a'] // lazni, chan, both
+const COLORS = ['#ea580c', '#16a34a',  '#42D778'] // lazni, chan, both
 
 // Labels for each category
 const typeLabels = {

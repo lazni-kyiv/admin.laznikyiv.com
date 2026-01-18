@@ -1,0 +1,245 @@
+/* ===============================
+   BASE BUTTON
+   =============================== */
+@import url("../colors.css");
+
+   .ui-button:focus-visible {
+  outline: none;
+}
+
+.ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast);
+
+    height: fit-content;
+}
+
+.ui-button.sm {
+  font-size: 12px !important;
+  padding: 6px 12px !important;
+}
+
+.ui-button.lg {
+  font-size: 16px !important;
+  padding: 10px 20px !important;
+}
+/* ===============================
+   PRIMARY
+   =============================== */
+
+.primary {
+  background: var(--primary);
+  color: var(--text-inverse);
+}
+
+.primary:hover {
+  background: var(--primary-400);
+}
+
+.primary:focus:active {
+  background: var(--primary-600);
+}
+
+.primary:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+/* ===============================
+   Danger
+   =============================== */
+
+.danger {
+  background: var(--danger);
+  color: var(--text-inverse);
+}
+
+.danger:hover {
+  background: var(--danger-400);
+}
+
+.danger:focus:active {
+  background: var(--danger-600);
+}
+
+.danger:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 25%, transparent);
+}
+
+/* ===============================
+   SECONDARY / OUTLINE
+   =============================== */
+
+.outline {
+  background: transparent;
+  border-color: var(--border-color);
+}
+
+.outline:hover {
+  background: var(--primary-50);
+  border-color: var(--primary);
+  color: var(--primary)
+}
+
+.outline:focus-visible {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+.outline:focus:active {
+  background: var(--primary-100);
+}
+
+/* ===============================
+   DANGER OUTLINE
+   =============================== */
+
+.danger-outline {
+  background: transparent;
+  border-color: var(--danger-200);
+  color: var(--danger-500)
+}
+
+.danger-outline:hover {
+  background: var(--danger-50);
+  border-color: var(--danger-500);
+  color: var(--danger-500)
+}
+
+.danger-outline:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 10%, transparent);
+}
+
+.danger-outline:focus:active {
+  background: var(--danger-100);
+}
+
+/* ===============================
+   GHOST
+   =============================== */
+
+.ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-secondary);
+}
+
+.ghost:hover {
+  background: var(--neutral-50);
+  color: var(--text-primary);
+}
+
+.ghost:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--neutral-300) 10%, transparent);
+}
+
+.ghost:focus:active {
+  background: var(--neutral-100);
+  color: var(--text-primary);
+}
+
+/* ===============================
+   SIZES
+   =============================== */
+
+.btn-sm {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.btn-lg {
+  height: 48px;
+  padding: 0 20px;
+  font-size: 15px;
+}
+
+/* ===============================
+   ICON BUTTON
+   =============================== */
+
+.btn-icon {
+  width: 40px;
+  padding: 0;
+}
+
+.btn-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ===============================
+   STATES
+   =============================== */
+
+button:disabled,
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===============================
+   SEMANTIC VARIANTS
+   =============================== */
+
+.btn-success {
+  background: var(--success);
+  color: #fff;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn-warning {
+  background: var(--warning);
+  color: #000;
+}
+
+.btn-info {
+  background: var(--info);
+  color: #fff;
+}
+
+/* ===============================
+   LOADING STATE
+   =============================== */
+
+.btn-loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.btn-loading::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: btn-spin 0.6s linear infinite;
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

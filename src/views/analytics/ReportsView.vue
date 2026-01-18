@@ -1,8 +1,8 @@
 <template>
   <AdminView>
     <div class="header">
-      <p class="comment">Договори</p>
-      <div class="header__search">
+      <p class="comment">Звіти</p>
+      <!-- <div class="header__search">
         <div class="form-input">
           <input
             type=""
@@ -11,19 +11,20 @@
             @input="search()"
           />
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="guests" v-if="gridType == 'l'">
       
-      <p v-if="bookings.length == 0" class="not-found">Немає результатів</p>
+      <p v-if="reports.length == 0" class="not-found">Немає результатів</p>
 
       <router-link
         class="guest"
-        v-for="(dogovir, i) in bookings"
-        v-if="bookings?.length > 0"
+        v-for="(report, i) in reports"
+        v-if="reports?.length > 0"
         :style="`animation-delay: ${0.02 * i}s`"
         :class="{ lorem: placeholder }"
+        :to="`/reports/${report.split('.')[0]}`"
       >
         <div class="guest-text">
           <div class="guest__avatar">
@@ -33,7 +34,7 @@
         <div class="guest__info">
         
           <div class="guest__name">
-             {{ JSON.parse(dogovir.dogovir).pdf }}
+             {{ monthes[report.split(".")[0].split("-")[1]] }} {{ report.split(".")[0].split("-")[0] }}
           </div>
           <!-- <div v-if="!guest?.alias" class="guest__name placeholder">
             123123123123123
@@ -43,7 +44,7 @@
             123123123123
           </div> -->
           <div class="guest__id">
-            ХукцукХ
+            {{ report.split(".")[0] }}
           </div>
         </div>
        
@@ -184,7 +185,7 @@ thead {
 
 .guests {
   padding: 1rem;
-  padding-top: 95px;
+  padding-top: 52px !important;
 
   overflow: auto;
   box-sizing: border-box;
@@ -448,6 +449,8 @@ const guestsOriginal = ref([]);
 const guests = ref(Array.from({ length: 10 }, () => ({})));
 const searchQuery = ref("");
 const authed = ref(null);
+
+const reports = ref([])
 const placeholder = ref(true);
 const accessType = ref(null);
 const reversedGuests = computed(() => {
@@ -463,7 +466,20 @@ const newGuest = ref({
 const bookings = ref([]);
 const bookingsOriginal = ref([]);
 const gridType = ref("l");
-
+const monthes = ref({
+  "01": "Січень",
+  "02": "Лютий",
+  "03": "Березень",
+  "04": "Квітень",
+  "05": "Травень",
+  "06": "Червень",
+  "07": "Липень",
+  "08": "Серпень",
+  "09": "Вересень",
+  "10": "Жовтень",
+  "11": "Листопад",
+  "12": "Грудень"
+})
 onMounted(() => {
   useHead({
     title: "Договори",
@@ -473,29 +489,36 @@ onMounted(() => {
     toastr.error("Помилка завантаження гостя");
     sessionStorage.removeItem("guest-error");
   }
-  api.guests.list().then((data) => {
-    guestsOriginal.value = data.guests;
-    guests.value = data.guests;
+  // api.guests.list().then((data) => {
+  //   guestsOriginal.value = data.guests;
+  //   guests.value = data.guests;
 
+  //   placeholder.value = false;
+
+  //    // console.log(data);
+  // });
+  // api.bookings.list().then((data) => {
+  //   bookings.value = data.bookings.filter(e => e.dogovir !== null);
+  //   bookingsOriginal.value = data.bookings.filter(e => e.dogovir !== null);
+  //   const bk = data.bookings.filter(e => e.dogovir !== null);
+  //    // console.log(bookings);
+  //   guests.value.forEach((guest) => {
+  //      // console.log(guest);
+  //     let book = 0;
+  //     bk.forEach((e) => {
+  //       if (e.guest == guest.$id) book += 1;
+  //     });
+  //     guest["bookings"] = book;
+  //      // console.log(book);
+  //   });
+  // });
+
+  api.reports.list().then(data => {
+    console.log(data)
+
+    reports.value = data
     placeholder.value = false;
-
-     // console.log(data);
-  });
-  api.bookings.list().then((data) => {
-    bookings.value = data.bookings.filter(e => e.dogovir !== null);
-    bookingsOriginal.value = data.bookings.filter(e => e.dogovir !== null);
-    const bk = data.bookings.filter(e => e.dogovir !== null);
-     // console.log(bookings);
-    guests.value.forEach((guest) => {
-       // console.log(guest);
-      let book = 0;
-      bk.forEach((e) => {
-        if (e.guest == guest.$id) book += 1;
-      });
-      guest["bookings"] = book;
-       // console.log(book);
-    });
-  });
+  })
 
   // ---- Load guests FROM API (not Appwrite) ----
   // fetch("https://api.laznikyiv.com/v2/guests", {

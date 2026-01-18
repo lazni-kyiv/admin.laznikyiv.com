@@ -1,5 +1,5 @@
 <template>
-  <AnalyticsCard title="Бронювання по будинках" icon="home-white">
+  <AnalyticsCard title="Бронювання по будинках" icon="pie-chart">
     <v-chart :option="chartOption" autoresize style="height: 350px" />
   </AnalyticsCard>
 </template>

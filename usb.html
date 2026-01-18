@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="usb-log"></div>
+    <button onclick="connectToUSBDevice()">conneckt</button>
+    <script>
+        async function connectToUSBDevice(){
+            console.log("j")
+  if (!navigator.usb){
+    alert("WebUSB API not supported in your browser");
+    return;
+  }
+  try {
+   
+    let log = document.getElementById('usb-log');
+    let device = await navigator.usb.requestDevice({ filters: [{}] });
+     console.log(device)
+    await device.open();
+    log.textContent +=  device;
+    log.textContent +=  "Manufacturer: "+device.manufacturerName + "\n";
+    log.textContent +=  "Product: "+device.productName + "\n";
+    log.textContent +=  "Serial Number: "+device.device.serialNumber + "\n";
+  } 
+  catch (err) {
+    console.error("Error:", err);
+  }
+}
+
+    </script>
+</body>
+</html>

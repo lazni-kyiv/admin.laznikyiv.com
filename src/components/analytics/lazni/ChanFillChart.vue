@@ -1,5 +1,5 @@
 <template>
-  <AnalyticsCard title="Заповнення чану" icon="fire-white">
+  <AnalyticsCard title="Заповнення чану" icon="pie-chart">
     <v-chart :option="chartOption" autoresize style="height: 320px" />
   </AnalyticsCard>
 </template>

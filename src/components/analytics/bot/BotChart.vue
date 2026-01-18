@@ -1,11 +1,11 @@
 <template>
-  <AnalyticsCard title="Типи бронювань" icon="chart-white">
+  <AnalyticsCard title="Типи запитів" icon="pie-chart">
     <v-chart :option="chartOption" autoresize style="height: 320px" />
   </AnalyticsCard>
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import VChart from 'vue-echarts'
 import { use } from 'echarts/core'
 import { PieChart } from 'echarts/charts'
@@ -16,11 +16,16 @@ import {
 import { CanvasRenderer } from 'echarts/renderers'
 import AnalyticsCard from '../AnalyticsCard.vue'
 
+const botData = ref([])
 onMounted(() => {
     fetch("https://api.laznikyiv.com/v2/bot-log", {
         credentials: "include"
     }).then(data => data.json().then(data => {
-        console.log(data.content.split("\n"))
+       
+
+        botData.value = data.content.split("\n").filter(e => e.trim() != "").map(e => e = JSON.parse(e))
+
+         console.log(botData.value)
     }))
 })
 use([
@@ -30,26 +35,19 @@ use([
   CanvasRenderer
 ])
 
-const props = defineProps({
-  bookings: {
-    type: Array,
-    required: true
-  }
-})
 
-const COLORS = ['#2f8051', '#42d778', '#ea580c', '#dc2626', '#0891b2']
+const COLORS = ['#2f8051', '#42d778']
 
 const typeLabels = {
-  house: "Будинок",
-  lazni: "Лазня",
-  pool: "Басейн"
+  call: "Дзвінок",
+  booking: "Бронювання"
 }
 
 const chartOption = computed(() => {
   const typeCounts = {}
   
-  props.bookings.forEach(b => {
-    const type = b.type || 'unknown'
+  botData.value.forEach(b => {
+    const type = b.event || 'unknown'
     typeCounts[type] = (typeCounts[type] || 0) + 1
   })
 

@@ -1,7 +1,9 @@
 <template>
   <aside class="sidebar open">
     <!-- ===== LOGO ===== -->
-    <h3 class="sidebar__logo">LAZNI</h3>
+    <router-link to="/dashboard">
+      <h3 class="sidebar__logo">LAZNI</h3>
+    </router-link>
 
     <nav class="sidebar__nav">
 
