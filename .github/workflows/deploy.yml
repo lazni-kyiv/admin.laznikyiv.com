@@ -1,4 +1,4 @@
-name: Deploy to cPanel
+name: Deploy to cPanel via FTP
 
 on:
   push:
@@ -13,22 +13,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18' # or your Node version
-
-      - name: Install dependencies
-        run: npm install
-
       - name: Build project
-        run: npm run build
+        run: |
+          npm install
+          npm run build
 
-      - name: Deploy to cPanel
-        uses: jakirseu/SFTP-Action-cPanel@main
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.6.0
         with:
-          host: ${{ secrets.HOST }}
+          server: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          source: 'dist/'               # <-- only deploy dist folder
-          target: 'admin.laznikyiv.com/' # server directory
+          local-dir: dist/
+          server-dir: admin.laznikyiv.com/
