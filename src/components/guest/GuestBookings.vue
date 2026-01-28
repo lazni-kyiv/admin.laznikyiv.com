@@ -129,7 +129,7 @@ function handleUpdateBooking(booking) {
     meta: JSON.stringify(booking.meta)
   };
 
-  api.bookings.update(booking.$id, payload).then(res => {
+  api.bookings.update(editBooking.value.$id, payload).then(res => {
     const index = bookings.value.findIndex(b => b.$id === booking.$id);
     if (index > -1) bookings.value[index] = res;
     toastr.success("Бронювання оновлено");

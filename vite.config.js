@@ -12,7 +12,10 @@ export default defineConfig({
       registerType: "autoUpdate",
       strategies: "registerSW",
       includeAssets: ["favicon.svg", "robots.txt"],
-
+      workbox: {
+          clientsClaim: true,
+          skipWaiting: true
+        },
       manifest: {
         name: "Lazni Admin",
         short_name: "Lazni",

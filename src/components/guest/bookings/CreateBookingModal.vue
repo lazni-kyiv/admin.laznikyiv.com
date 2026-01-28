@@ -18,12 +18,12 @@
         v-model="dailyBookings"
       />
 
-      <ServicesSelector
+      <!-- <ServicesSelector
         v-if="services"
         :services="services"
         :disabled="!canAddServices"
         @update="form.extra = $event"
-      />
+      /> -->
 
       <div :class="['form-input', { blured: !canAddServices }]">
         <label>Коментар</label>

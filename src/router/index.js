@@ -75,6 +75,24 @@ const routes = [
     name: 'report',
     component: () => import('@/views/analytics/ReportView.vue'),
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/booking/create/',
+    name: 'create-booking',
+    component: () => import('@/views/bookings/BookingCreate.vue'),
+    meta: { requiresAuth: true }
+  },
+   {
+    path: '/booking/:id/',
+    name: 'info-booking',
+    component: () => import('@/views/bookings/BookingInfo.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/booking/:id/edit/',
+    name: 'edit-booking',
+    component: () => import('@/views/bookings/BookingEdit.vue'),
+    meta: { requiresAuth: true }
   }
 ]
 

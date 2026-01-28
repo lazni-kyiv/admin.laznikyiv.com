@@ -177,7 +177,7 @@ function handleSubmit() {
   }
 
   emit('update', {
-    id: props.booking.id,
+    id: props.booking.$id,
     type,
     house,
     date: fullDateRange,

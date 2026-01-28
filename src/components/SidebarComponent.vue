@@ -1,9 +1,9 @@
 <template>
   <aside class="sidebar open">
     <!-- ===== LOGO ===== -->
-    <router-link to="/dashboard">
+    <a href="">
       <h3 class="sidebar__logo">LAZNI</h3>
-    </router-link>
+    </a>
 
     <nav class="sidebar__nav">
 
@@ -69,7 +69,7 @@
           </div>
         </router-link>
 
-        <router-link 
+        <!-- <router-link 
           to="/reports/" 
           class="sidebar__nav__item"
           :class="{ active: $route.path.startsWith('/reports') }"
@@ -78,7 +78,7 @@
             <Icon :icon="$route.path.startsWith('/reports') ? 'reports-active' : 'reports'"></Icon>
             <p>Звіти</p>
           </div>
-        </router-link>
+        </router-link> -->
       </template>
 
       <!-- ===== USER ACCOUNT ===== -->

@@ -22,7 +22,7 @@
         <Input
           label="Пароль"
           type="password"
-          placeholder="example@laznikyiv.com"
+          placeholder="lazni123"
           required
           v-model="password"
         />

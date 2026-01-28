@@ -78,7 +78,6 @@ import multiMonthPlugin from '@fullcalendar/multimonth'
 import DogovirActions from '@/components/dogovir/DogovirActions.vue'
 import { api } from '@/assets/js/app'
 
-import StatsCards from '@/components/dashboard/StatsCards.vue'
 
 // FullCalendar imports
 import FullCalendar from '@fullcalendar/vue3'

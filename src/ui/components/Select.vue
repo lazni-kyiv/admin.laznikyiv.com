@@ -3,23 +3,42 @@
     <!-- Label -->
     <label v-if="label" :for="inputId">{{ label }}</label>
 
-    <!-- Selected / toggle button -->
-    <div class="select-toggle" @click="toggleDropdown">
+    <!-- Toggle -->
+    <div
+      class="select-toggle"
+      tabindex="0"
+      role="combobox"
+      :aria-expanded="open"
+      @click="toggleDropdown"
+      @keydown="onKeydown"
+    >
       <span>{{ selectedLabel || placeholder }}</span>
-      <svg class="arrow" :class="{ open: open }" viewBox="0 0 24 24">
-        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <svg class="arrow" :class="{ open }" viewBox="0 0 24 24">
+        <path
+          d="M6 9l6 6 6-6"
+          stroke="currentColor"
+          stroke-width="2"
+          fill="none"
+          stroke-linecap="round"
+        />
       </svg>
     </div>
 
-    <!-- Dropdown menu -->
+    <!-- Dropdown -->
     <ul
       ref="dropdown"
+     
       :class="['select-dropdown', position, { visible: open }]"
     >
-      <li 
-        v-for="option in options" 
+      <li
+        v-for="(option, i) in options"
         :key="option.value"
-        :class="{ selected: option.value === modelValue }"
+        role="option"
+        :aria-selected="i === focusedIndex"
+        :class="{
+          selected: option.value === modelValue,
+          focused: i === focusedIndex
+        }"
         @click="select(option)"
       >
         {{ option.label }}
@@ -29,7 +48,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick } from "vue"
+import { ref, onMounted, onBeforeUnmount, nextTick, watch } from "vue"
 
 const props = defineProps({
   modelValue: [String, Number],
@@ -39,55 +58,124 @@ const props = defineProps({
   id: String
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(["update:modelValue"])
 
 const open = ref(false)
 const selectedLabel = ref("")
+const focusedIndex = ref(-1)
+
 const wrapper = ref(null)
 const dropdown = ref(null)
-const inputId = ref(props.id || `select-${Math.random().toString(36).slice(2, 8)}`)
-const position = ref('bottom') // bottom or top
 
-// Toggle dropdown
+const inputId = ref(
+  props.id || `select-${Math.random().toString(36).slice(2, 8)}`
+)
+
+const position = ref("bottom")
+
+/* ---------- Toggle ---------- */
 function toggleDropdown() {
   if (!open.value) {
     calculatePosition()
+    setInitialFocus()
   }
   open.value = !open.value
 }
 
-// Select item
+/* ---------- Select ---------- */
 function select(option) {
-  emit('update:modelValue', option.value)
+  emit("update:modelValue", option.value)
   selectedLabel.value = option.label
   open.value = false
 }
 
-// Close dropdown on outside click
+/* ---------- Keyboard ---------- */
+function onKeydown(e) {
+  if (!open.value && (e.key === "Enter" || e.key === " ")) {
+    e.preventDefault()
+    toggleDropdown()
+    return
+  }
+
+  if (!open.value) return
+
+  switch (e.key) {
+    case "ArrowDown":
+      e.preventDefault()
+      focusedIndex.value =
+        (focusedIndex.value + 1) % props.options.length
+      scrollIntoView()
+      break
+
+    case "ArrowUp":
+      e.preventDefault()
+      focusedIndex.value =
+        (focusedIndex.value - 1 + props.options.length) %
+        props.options.length
+      scrollIntoView()
+      break
+
+    case "Enter":
+      e.preventDefault()
+      select(props.options[focusedIndex.value])
+      break
+
+    case "Escape":
+      open.value = false
+      break
+  }
+}
+
+/* ---------- Helpers ---------- */
+function setInitialFocus() {
+  const index = props.options.findIndex(
+    o => o.value === props.modelValue
+  )
+  focusedIndex.value = index >= 0 ? index : 0
+}
+
+function scrollIntoView() {
+  nextTick(() => {
+    const el = dropdown.value?.children[focusedIndex.value]
+    el?.scrollIntoView({ block: "nearest" })
+  })
+}
+
+/* ---------- Outside click ---------- */
 function handleClickOutside(e) {
   if (wrapper.value && !wrapper.value.contains(e.target)) {
     open.value = false
   }
 }
 
-// Determine dropdown position
+/* ---------- Position ---------- */
 function calculatePosition() {
   nextTick(() => {
     const rect = wrapper.value.getBoundingClientRect()
-    const viewportHeight = window.innerHeight
-    const spaceBelow = viewportHeight - rect.bottom
-    const dropdownHeight = dropdown.value ? dropdown.value.offsetHeight : 150
-
-    position.value = spaceBelow < dropdownHeight ? 'top' : 'bottom'
+    const spaceBelow = window.innerHeight - rect.bottom
+    const dropdownHeight = dropdown.value?.offsetHeight || 150
+    position.value = spaceBelow < dropdownHeight ? "top" : "bottom"
   })
 }
 
-onMounted(() => document.addEventListener('click', handleClickOutside))
-onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
+/* ---------- Sync label ---------- */
+watch(
+  () => props.modelValue,
+  val => {
+    const found = props.options.find(o => o.value === val)
+    selectedLabel.value = found ? found.label : ""
+  },
+  { immediate: true }
+)
 
-// Set initial label
-const initial = props.options.find(o => o.value === props.modelValue)
-if (initial) selectedLabel.value = initial.label
+/* ---------- Lifecycle ---------- */
+onMounted(() =>
+  document.addEventListener("click", handleClickOutside)
+)
+
+onBeforeUnmount(() =>
+  document.removeEventListener("click", handleClickOutside)
+)
 </script>
 
 <style scoped>
@@ -114,11 +202,12 @@ if (initial) selectedLabel.value = initial.label
   border-radius: var(--radius-md);
   background: var(--bg-card);
   cursor: pointer;
-  transition: var(--transition-fast);
+  outline: none;
 }
 
-.select-toggle:hover {
+.select-toggle:focus {
   border-color: var(--primary);
+   box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 5%, transparent) !important;
 }
 
 .select-toggle .arrow {
@@ -134,6 +223,7 @@ if (initial) selectedLabel.value = initial.label
 .select-dropdown {
   position: absolute;
   left: 0;
+  user-select: none;
   right: 0;
   background: var(--bg-card);
   border: var(--border-default);
@@ -141,18 +231,16 @@ if (initial) selectedLabel.value = initial.label
   box-shadow: var(--shadow-sm);
   max-height: 200px;
   overflow-y: auto;
-  padding: 0;
+  padding: var(--space-1);
   margin: 0;
   list-style: none;
   z-index: 100;
   opacity: 0;
-  /* width: max-content; */
   transform: translateY(10px);
   pointer-events: none;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Positioning */
 .select-dropdown.bottom {
   top: calc(100% + var(--space-2));
 }
@@ -162,26 +250,21 @@ if (initial) selectedLabel.value = initial.label
   transform: translateY(-10px);
 }
 
-/* Visible state */
 .select-dropdown.visible {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
 
-/* Dropdown items */
-.select-dropdown {
-  padding: var(--space-1)!important;
-}
 .select-dropdown li {
   padding: var(--space-1) var(--space-2);
   cursor: pointer;
   border-radius: 0.375rem;
-  transition: var(--transition-fast);
 }
 
-.select-dropdown li:hover {
-  background: var(--neutral-50);
+.select-dropdown li:hover,
+.select-dropdown li.focused {
+  background: var(--neutral-100);
 }
 
 .select-dropdown li.selected {

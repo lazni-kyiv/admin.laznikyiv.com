@@ -4,7 +4,7 @@
         <form class="modal-box" @submit.prevent="addGuest()" >
           <h3 class="text-lg font-bold">Додати гостя</h3>
           <div class="form-input">
-            <label for="">Ім'я</label>
+            <label class="required">Ім'я <span>*</span></label>
             <input type="text" v-model="newGuest.alias" minlength="1" required />
           </div>
           <div class="form-input">
@@ -24,7 +24,7 @@
           </div>
            <div
           class="form-input">
-          <label class="mt-4">Джерело</label>
+          <label class="required">Джерело <span>*</span></label>
           <div class="select-input">
             <button v-for="src in sources" :key="src.value" type="button"
               :class="['house', { selected: newGuest.source === src.value }]"
@@ -32,63 +32,13 @@
               {{ src.label }}
             </button>
           </div>
-        </div>
-          <!-- <div class="form-input">
-            <label for="">instagram.com/</label>
-            <input type="text" v-model="guestTemplate.i" minlength="1" />
-          </div>
-          <div class="form-input">
-            <label for="">t.me/</label>
-            <input type="text" v-model="guestTemplate.tg" minlength="1"/>
-          </div> -->
-          
+        </div>  
           <div class="modal-action">
-            <button class="secondary" @click.prevent onclick="guest.close()">Скасувати</button>
-            <button type="submit">Зберегти</button>
+            <button class="secondary" @click.prevent @click="closeCreate()">Скасувати</button>
+            <button type="submit" :disabled="createDisabled">Зберегти</button>
           </div>
         </form>
       </dialog>
-        <dialog id="gоuest" class="modal">
-            <form class="modal-box" @submit.prevent="addGuest">
-                <h3 class="text-lg font-bold mb-4">Додати бронювання</h3>
-                <div class="form-input">
-                    <label for="">Ім'я</label>
-                    <input type="text" v-model="newGuest.alias">
-                </div>
-                <div class="form-input">
-                    <label for="">ПІБ</label>
-                    <input type="text" v-model="newGuest.name">
-                </div>
-                <div class="form-input">
-                    <label for="">Номер телефону</label>
-                    <input type="text" v-model="newGuest.phone">
-                </div>
-                <div class="form-input">
-                    <label for="">Дата народження</label>
-                    <input type="text" v-model="newGuest.birthday">
-                </div>
-                <div class="form-input">
-                    <label for="">Документ</label>
-                    <input type="text" v-model="newGuest.document">
-                </div>
-                <div
-          class="form-input">
-          <label class="mt-4">Джерело</label>
-          <div class="select-input">
-            <button v-for="src in sources" :key="src.value" type="button"
-              :class="['house', { selected: newGuest.source === src.value }]"
-              @click="newGuest.source = src.value">
-              {{ src.label }}
-            </button>
-          </div>
-        </div>
-
-                <div class="modal-action" style="margin-top: 0.5rem;">
-                    <button class="secondary" type="button" onclick="guest.close()">Скасувати</button>
-                    <button type="submit">Додати</button>
-                </div>
-            </form>
-        </dialog>
         <div class="header">
             <p class="comment">Гості</p>
             <div class="header__search">
@@ -103,40 +53,8 @@
 
 
         </div>
-        <div class="guests" v-if="gridType == 'g'">
-            <table>
-                <thead>
-                    <th>№</th>
-                    <th>Ім'я</th>
-
-                    <th>ПІБ</th>
-                    <th>ДН</th>
-                    <th>Номер тел.</th>
-                    <th>Паспорт</th>
-                </thead>
-                <tbody>
-                    <tr v-for="(guest, i) in reversedGuests">
-                        <td>{{ i + 1 }}</td>
-                        <td><router-link :to="`./${guest.$id}/`"><u>{{ guest.alias }}</u></router-link></td>
-
-                        <td>
-                            {{ guest.name }}
-                        </td>
-                        <td>
-                            {{ guest?.birthday }}
-                        </td>
-                        <td>
-                            {{ guest?.phone }}
-                        </td>
-                        <td>
-                            {{ guest?.document }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="guests" v-if="gridType == 'l'">
+ 
+       <div class="guests">
             <p v-if="guests.length == 0" class="not-found">Немає результатів</p>
 
             <router-link :to="'/guests/' + guest?.$id + '/'" class="guest" v-for="(guest, i) in reversedGuests"
@@ -178,6 +96,7 @@
                     <div v-if="!guest?.alias" class="guest__id placeholder">
                         123123123123
                     </div>
+    
                     <div class="guest__id" v-if=" guest.name && guest.name !== 'None'">
                         {{ guest?.name || "-" }}
                     </div>
@@ -488,7 +407,7 @@ const searchQuery = ref("")
 const placeholder = ref(true)
 import "@/assets/views/guest/bookings.css"
 import router from "@/router";
-
+const createPlaceholder = ref(false)
 const { user } = useAuth()
 
 const canAddGuests = computed(() => {
@@ -519,10 +438,26 @@ const newGuest = ref({
     description: null,
     source: null
 })
+const createDisabled = computed(() => {
+  if (createPlaceholder.value) return true;
+  if (!newGuest.value.alias || !newGuest.value.source) return true;
+  return false;
+});
 
 const bookings = ref([])
-
+function closeCreate() {
+     newGuest.value = {
+            alias: null,
+            name: null,
+            birthday: null,
+            document: null,
+            phone: null
+        }
+     createPlaceholder.value = false
+     document.getElementById("guest").close()
+}
 async function addGuest() {
+    createPlaceholder.value = true
     api.guests.create(newGuest.value).then(data => {
         newGuest.value = {
             alias: null,
@@ -531,15 +466,16 @@ async function addGuest() {
             document: null,
             phone: null
         }
-        console.log(data)
-        router.push(`/guests/${data.guest.$id}`)
+        window.location.href = `/guests/${data.guest.$id}`
+    }).catch(e => {
+        toastr.error("Не вдалося створити гостя")
     })
 }
 const gridType = ref("l")
 
 onMounted(() => {
     useHead({
-        title: "Гості | Lazni Kyiv"
+        title: "Гості"
     })
     const error = sessionStorage.getItem("guest-error")
     if (error == "get-error") {

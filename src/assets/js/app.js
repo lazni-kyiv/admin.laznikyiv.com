@@ -193,6 +193,17 @@ const api = {
       cache.bookings = await res.json();
       return cache.bookings;
     },
+    get: async (id) => {
+      if (cache.bookings) return cache.bookings.bookings.filter(e => e.$id == id);
+
+      const res = await fetch(`${API_URL}/bookings/${id}`, {
+        method: "GET",
+        credentials: "include", // send cookie to delete it
+      });
+      const booking =  await res.json();
+      
+      return booking;
+    },
     create: async (data) => {
       const res = await fetch(`${API_URL}/bookings/`, {
         method: "POST",
@@ -245,7 +256,7 @@ const api = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ uid: uid, bid: bid }),
-        credentials: "include", // send cookie to delete it
+        credentials: "include",
       });
 
       return res.json();
@@ -300,4 +311,4 @@ if (window.location.href.includes("localhost")) {
 
 export { api, realtime, auth, client, functions, pwa };
 
-export const v = "2.0-01.01.26";
+export const v = "2.2-28.01.26 beta";

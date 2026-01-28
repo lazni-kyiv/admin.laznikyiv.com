@@ -1,7 +1,7 @@
 <template>
   <AdminView>
     <p class="comment">Огляд</p>
-    <StatsCards :bookings="bookings" :guests="guests"></StatsCards>
+    <DashboardStatsCards :bookings="bookings" :guests="guests"/>
 
     <div class="calendar-container">
       <FullCalendar :options="calendarOptions" />
@@ -18,6 +18,7 @@
           </span></button>
         </div>
         <div class="modal-body">
+         
           <div class="booking-detail">
             <span class="label">Гість:</span>
             <span class="value"><router-link :to="`/guests/${selectedBooking.guest}`">{{ getGuestName(selectedBooking.guest) }}</router-link></span>
@@ -55,6 +56,10 @@
             <span class="label">Лазня / чан</span>
             <span class="value" v-html="getLazni(selectedBooking.meta)"></span>
           </div>
+           <!-- <div class="booking-detail column">
+            <span class="label">Додатково</span>
+            <span class="value" v-html="parseExtra(selectedBooking.extra)"></span>
+          </div> -->
         
         </div>
         <!-- <div class="modal-footer">
@@ -79,7 +84,7 @@ import DogovirActions from '@/components/dogovir/DogovirActions.vue'
 
 import { api } from '@/assets/js/app'
 
-import StatsCards from '@/components/dashboard/StatsCards.vue'
+import DashboardStatsCards from '@/components/dashboard/DashboardStatsCards.vue'
 
 // FullCalendar imports
 import FullCalendar from '@fullcalendar/vue3'
@@ -92,20 +97,17 @@ const guests = ref([])
 const bookings = ref([])
 const selectedBooking = ref(null)
 
-// Парсинг дати з вашого формату "30.11.25T12:00-30.11.25T14:00"
 const parseDateRange = (dateStr) => {
   if (!dateStr) return { start: null, end: null }
   
   try {
     const [startPart, endPart] = dateStr.split('-')
-    
-    // Парсинг початкової дати "30.11.25T12:00"
+  
     const [startDate, startTime] = startPart.split('T')
     const [startDay, startMonth, startYear] = startDate.split('.')
     const fullStartYear = `20${startYear}`
     const startISO = `${fullStartYear}-${startMonth}-${startDay}T${startTime}:00`
     
-    // Парсинг кінцевої дати "30.11.25T14:00"
     const [endDate, endTime] = endPart.split('T')
     const [endDay, endMonth, endYear] = endDate.split('.')
     const fullEndYear = `20${endYear}`
@@ -121,7 +123,6 @@ const parseDateRange = (dateStr) => {
   }
 }
 
-// Форматування дати для відображення
 const formatDateRange = (dateStr) => {
   if (!dateStr) return 'Не вказано'
   
@@ -146,12 +147,11 @@ const formatDateRange = (dateStr) => {
   }
 }
 
-// Функція для отримання кольору за типом
 const getBookingColor = (house) => {
   const colors = {
-    left: '#54cf6c',      // зелений
-    right: 'grey',      // помаранчевий
-    family: '#3e82dc',       // синій
+    left: '#54cf6c',     
+    right: 'grey',    
+    family: '#3e82dc',     
   }
   return colors[house] || '#9E9E9E'
 }
@@ -239,7 +239,8 @@ function getLazni(meta) {
       if (day.fills.length) {
         // remove duplicates
         const uniqueFills = [...new Set(day.fills)];
-        lines.push(`Наповнення: ${uniqueFills.join(", ")}`);
+        if (day.fills.join("") !== 'null')  lines.push(`Наповнення: ${uniqueFills.join(", ")}`);
+        
       }
     });
 
@@ -249,6 +250,89 @@ function getLazni(meta) {
     return "-";
   }
 }
+const services = ref({})
+
+onMounted(() => {
+  fetch('https://api.laznikyiv.com/v2/services', {
+    credentials: "include"
+  }).then(res => res.json().then(data => {
+    services.value = data
+    console.log(data)
+  }))
+})
+// function parseExtra(extraData) {
+//   const servicesValue = services.value.services || []; // use services array
+
+//   if (!extraData) return '';
+
+//   if (typeof extraData === 'string') {
+//     try {
+//       extraData = JSON.parse(extraData);
+//     } catch {
+//       return extraData;
+//     }
+//   }
+
+//   let lines = [];
+
+//   // Helper to find name by id in an array
+//   const findName = (arr, id) => arr?.find(x => x.id === id)?.name;
+
+//   // Services
+//   if (extraData.services) {
+//     for (const serviceId in extraData.services) {
+//       const service = servicesValue.find(s => s.id === serviceId);
+//       if (!service) continue;
+
+//       const types = extraData.services[serviceId].types;
+//       if (types && Object.keys(types).length > 0 && Array.isArray(service.type)) {
+//         // Print main service name first
+//         lines.push(`<b>${service.name + "<br>"}</b>`);
+
+//         // Then each type with quantity
+//         Object.keys(types).forEach(typeId => {
+//           const typeName = findName(service.type, typeId);
+//           if (typeName) lines.push(`${typeName} - ${types[typeId]}`+ "<br>");
+//         });
+//       } else {
+//         lines.push(service.name + "<br>");
+//       }
+//     }
+//   }
+
+//   // Kram
+//   if (extraData.kram) {
+//     ['additional', 'drinks', 'massagers', 'snacks', 'souvenirs'].forEach(cat => {
+//       if (!extraData.kram[cat]) return;
+//       extraData.kram[cat].forEach(item => lines.push(item.name));
+//     });
+//   }
+
+//   // Author specials
+//   if (extraData.author_specials) {
+//     extraData.author_specials.forEach(item => lines.push(item.name));
+//   }
+
+//   // Complexes
+//   if (extraData.complexes) {
+//     extraData.complexes.forEach(item => lines.push(item.name));
+//   }
+
+//   // Prokat
+//   if (extraData.prokat) {
+//     extraData.prokat.forEach(item => {
+//       if (item.types && item.types.length > 0) {
+//         lines.push(item.name);
+//         item.types.forEach(t => lines.push(`${t.name} - ${t.quantity || 1}`));
+//       } else {
+//         lines.push(item.name);
+//       }
+//     });
+//   }
+
+//   return lines.join('\n');
+// }
+
 
 
 // Output:
@@ -289,6 +373,10 @@ const calendarEvents = computed(() => {
 
 // Клік на подію (бронювання)
 const handleEventClick = (info) => {
+
+  // router.push('/booking/create')
+  // const id = info.event.extendedProps.booking.$id 
+  // router.push(`/booking/${id}`)
   selectedBooking.value = info.event.extendedProps.booking
 }
 
@@ -492,7 +580,7 @@ onMounted(async () => {
   --fc-today-bg-color: var(--primary-shade)
 }
 .calendar-container {
-  margin-top: 30px;
+  margin-top:8px;
   padding: 1rem;
   border-radius: var(--border-radius-lg);
   background: white;

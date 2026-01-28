@@ -24,158 +24,40 @@
    </div>
     <div class="form-input">
       <label for="">Рівень</label>
-     <input type="text" v-model="user.teams[0].team_name" readonly>
+     <input type="text"readonly v-model="teams">
    </div>
    </div>
       </div>
-     
        <div class="info-item version-item">
         <div class="verison-item__info">
           <h3>Lazni Admin</h3>
-          <p>Версія {{ v }} • &copy {{ new Date().getFullYear() }} Lazni Kyiv</p>
+          <p>Версія <b>{{ v }}</b> • &copy {{ new Date().getFullYear() }} Lazni Kyiv</p>
   
         </div>
     <img src="/public/512.png" alt="" @dragstart.prevent @dragover.prevent >
       </div>
    </div>
-    
-<!-- 
-   <div class="info__item">
-    <div class="account" style="width: fit-content">
-      <img  class="account__avatar" :src="`https://ui-avatars.com/api/?name=${user?.name}/&background=3D90864A&color=1d464`"  >
-    <h4 class="account__name">
-   {{ user.name }}
-    </h4></div>
-    <br>
-    
-   <div class="info">
-      <p>Пошта: </p>
-      <b>{{ user.email }}</b>
-   </div>
-   <div class="info">
-    <p>Рівень: </p>
-    <b>{{ user.labels[0] }}</b>
-   </div>
-   <div class="info">
-    <p>Останній вхід: </p>
-    <b>{{ user.accessedAt.split("T")[0].split("-").reverse().map(e=> e.length == 4 ? e.slice(2, 4) : e).join(".") }}&nbsp{{  user.accessedAt.split("T")[1].split(":")[0] }}:{{ user.accessedAt.split("T")[1].split(":")[1] }}</b>
-   </div>
-   <br>
-   <div class="info">
-      <p>Версія ПЗ: </p>
-      <span>{{  v  }}</span>
-   </div>
-
- <div class="credentials" v-if="user.labels[0] == 'dev'">
-  <div class="cred-card">
-    <div class="cred-header">
-      <a href="https://uashared33.twinservers.net:2083/" target="_blank" class="cred-icon">
-        <img src="data:image/x-icon;base64,AAABAAEAICAAAAEAIADSAgAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAgAAAAIAgGAAAAc3p69AAAAplJREFUWIXt1j2IHGUYB/DfOzdnjIKFkECIVWIKvUFsIkRExa9KJCLaWAgWJx4DilZWgpDDiI0wiViIoGATP1CCEDYHSeCwUBBkgiiKURQJFiLo4d0eOxYzC8nsO9m9XcXC+8MW+3z+9/l6l2383xH+iSBpElyTdoda26xsDqp/h0CVZ3vwKm7tMBngAs7h7eRYebG6hMtMBHbMBX89vfARHprQ5U8cwdFQlIOZCVR5di1+w/wWXT/EY6EoN5NZCODuKZLDwzgSMCuBe2fwfX6QZwtpWzqfBBtLC3txF/ZhxKbBGx0EfsTJS77vwmGjlZrD4mUzUOXZjVjGI65cnTXchB8iupdDUb7QinsQZ7GzZftdQj2JVZ49iC/w6JjksIo7OnS9tiA5Vn6GtyK2+1MY5NkhfGDygVrBAxH5WkPuMjR7/3UsUFLl2Q68s4XkA3ws3v9zoSjX28Kr5wL1xrTxa6ou+f6OZGvqPg9v1wZeaUjcELE/DVfNhWFSvy/enOIZ9eq1sTokEMNLWI79oirP8g6fXpVnh7GEvY1sV/OJ4f0UhyKKk6EoX4x5pEkgXv6L6OM99YqNw/c4kXSwG5nkIfpLCynuiahW1GWeJHkfT4aiXO9atz1XcD6I6yLyHu6bIPk6Hg9FeYZ63y9EjBarPDvQ8VJ1nd9V3D4m+RncForyxFCQ4hSeahlej88Hefauurdwaufr5z/F/ZHAX6nL+mZE18e36IWiHLkFocqzW9QXcNz1+wUHxJ/f10JRPjvGP4pk/vj5L3F8AtufdD+/p6dJDknzX+05fDLGtife/766t9MRgFCUffWTudwE3AqBlVCUf0xLYGTQqzzbhydwJ3Y34g318J1tmX+DPBTlz9MS2MY2/nP8DTGaqeTDf30rAAAAAElFTkSuQmCC" alt="">
-      </a>
-      <div class="cred-info">
-        <strong>cPanel</strong>
-        <div class="cred-user">lazniky1</div>
-        <div class="cred-pass">lif5K5cN36</div>
-      </div>
-    </div>
-  </div>
-  <div class="cred-card">
-    <div class="cred-header">
-      <a href="https://hostiq.ua" target="_blank" class="cred-icon">
-        <img src="https://hostiq.ua/favicon.ico" alt="">
-      </a>
-      <div class="cred-info">
-        <strong>Hostiq</strong>
-        <div class="cred-user">pryima.o.a@gmail.com</div>
-        <div class="cred-pass">primon1903</div>
-      </div>
-    </div>
-  </div>
-  <div class="cred-card">
-    <div class="cred-header">
-       <a href="https://dash.cloudflare.com/034e26ba5df4a80847db9754adb8c87d/laznikyiv.com" target="_blank" class="cred-icon">
-        <svg role="img" viewBox="0 0 460 271.2" width="69px" height="100%" aria-hidden="true"><path fill="#FBAD41" d="M328.6,125.6c-0.8,0-1.5,0.6-1.8,1.4l-4.8,16.7c-2.1,7.2-1.3,13.8,2.2,18.7    c3.2,4.5,8.6,7.1,15.1,7.4l26.2,1.6c0.8,0,1.5,0.4,1.9,1c0.4,0.6,0.5,1.5,0.3,2.2c-0.4,1.2-1.6,2.1-2.9,2.2l-27.3,1.6    c-14.8,0.7-30.7,12.6-36.3,27.2l-2,5.1c-0.4,1,0.3,2,1.4,2h93.8c1.1,0,2.1-0.7,2.4-1.8c1.6-5.8,2.5-11.9,2.5-18.2    c0-37-30.2-67.2-67.3-67.2C330.9,125.5,329.7,125.5,328.6,125.6z"></path><path fill="#F6821F" d="M292.8,204.4c2.1-7.2,1.3-13.8-2.2-18.7c-3.2-4.5-8.6-7.1-15.1-7.4l-123.1-1.6    c-0.8,0-1.5-0.4-1.9-1s-0.5-1.4-0.3-2.2c0.4-1.2,1.6-2.1,2.9-2.2l124.2-1.6c14.7-0.7,30.7-12.6,36.3-27.2l7.1-18.5    c0.3-0.8,0.4-1.6,0.2-2.4c-8-36.2-40.3-63.2-78.9-63.2c-35.6,0-65.8,23-76.6,54.9c-7-5.2-15.9-8-25.5-7.1    c-17.1,1.7-30.8,15.4-32.5,32.5c-0.4,4.4-0.1,8.7,0.9,12.7c-27.9,0.8-50.2,23.6-50.2,51.7c0,2.5,0.2,5,0.5,7.5    c0.2,1.2,1.2,2.1,2.4,2.1h227.2c1.3,0,2.5-0.9,2.9-2.2L292.8,204.4z"></path></svg>
-      </a>
-      <div class="cred-info">
-        <strong>DNS / SSL</strong>
-        <div class="cred-user">developer@laznikyiv.com</div>
-        <div class="cred-pass">biXciw-buzqet-3sucfi</div>
-      </div>
-    </div>
-  </div>
-    <div class="cred-card">
-    <div class="cred-header">
-       <a href="https://cloud.appwrite.io" target="_blank" class="cred-icon">
-       <img src="https://appwrite.io/images/logos/logo.svg" alt="Logo Appwrite"></a>
-      <div class="cred-info">
-        <strong>Auth</strong>
-        <div class="cred-user">pryima.o.a+lazni-kyiv-backend@gmail.com</div>
-        <div class="cred-pass">lazniKpass</div>
-      </div>
-    </div>
-  </div>
-  <div class="cred-card">
-    <div class="cred-header">
-       <a href="https://cloud.appwrite.io" target="_blank" class="cred-icon">
-       <img src="https://appwrite.io/images/logos/logo.svg" alt="Logo Appwrite"></a>
-      <div class="cred-info">
-        <strong>Bookings</strong>
-        <div class="cred-user">pryima.o.a+lazni-kyiv-bookings@gmail.com</div>
-        <div class="cred-pass">lazniKpass</div>
-      </div>
-    </div>
-  </div>
-  <div class="cred-card">
-    <div class="cred-header">
-       <a href="https://cloud.appwrite.io" target="_blank" class="cred-icon">
-       <img src="https://appwrite.io/images/logos/logo.svg" alt="Logo Appwrite"></a>
-      <div class="cred-info">
-        <strong>Guests</strong>
-        <div class="cred-user">pryima.o.a+lazni-kyiv-guests@gmail.com</div>
-        <div class="cred-pass">lazniKpass</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-      
-      
-   </div> -->
   </AdminView>
   
 </template>
 
 <script setup>
-
-import toastr from 'toastr'
-import 'toastr/build/toastr.min.css'
-import { auth } from '@/assets/js/app'
 import {v} from "@/assets/js/app"
 import AdminView from '@/templates/AdminView.vue'
 
+import { ref, onMounted, computed } from 'vue'
 
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { Query } from 'appwrite'
-import router from '@/router'
-const allBookings = ref([])
-const bookings = ref([])
-const guests = ref({})
-const guestsStatus = ref({})
-const access = ref(null)
 import { useHead } from '@vueuse/head'
 
-const currentMonthBookings = ref(null)
-
-const updatedBookings = ref(new Set())
-const currentMonth = ref(new Date());
 import { useAuth } from "@/stores/auth"
 onMounted(() => {
   useHead({
-    title: 'Аккаунт | Lazni Kyiv',
+    title: 'Профіль',
   })
 })
+
 const {user} = useAuth()
+const teams = computed(() => { return user.value.teams.map(e => e.team_name).join(', ')})
 </script>
 
 <style scoped>

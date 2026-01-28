@@ -9,9 +9,27 @@
       </transition>
     </div>
   </div>
-  <div class="content" v-else-if="locked">
+   <div v-else-if="locked">
+    <div class="lock-container">
+      <div class="lock-box">
+        <h2>Заблоковано</h2>
+        <p>Введіть код доступу для розблокування</p>
 
+        <input
+          v-model="code"
+          type="password"
+          placeholder="Код доступу"
+          @keyup.enter="unlock"
+        />
+
+        <button @click="unlock">Розблокувати</button>
+
+        <p v-if="error" class="error">{{ error }}</p>
+      </div>
+    </div>
   </div>
+
+
   <div class="content not-auth" v-else>
 	<h1>Lazni Kyiv</h1>
 	<p>Доступ до панелі адміністрування заблоковано, встановіть додаток</p>
@@ -24,11 +42,27 @@ import "@/assets/css/views/dashboard.css"
 import { ref, onMounted } from "vue";
 import { api } from "@/assets/js/app";
 import { useRoute } from "vue-router";
-import { locked } from "@/stores/lock";
+import { useAppLock } from "@/stores/lock";
 import { pwa } from "@/assets/js/app";
 const blured = defineProps({ blured: { type: Boolean, default: false } });
 
 const showContent = ref(false);
+
+const { locked, unlockApp } = useAppLock(); // 👈 БЕРЁМ ref
+
+const ACCESS_CODE = 'lk0la'
+const code = ref('')
+const error = ref('')
+
+function unlock() {
+  if (code.value === ACCESS_CODE) {
+    unlockApp()
+    error.value = ''
+  } else {
+    error.value = 'Неправильний код доступу'
+    code.value = ''
+  }
+}
 
 onMounted(() => {
   showContent.value = true; // triggers fade-in

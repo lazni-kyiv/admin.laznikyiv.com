@@ -117,7 +117,7 @@ onMounted(async () => {
   fetch("https://bot.laznikyiv.com/lklg/bot.log").then(res => res.text().then(data => {
     console.log(data.split("\n"))
   }))
-  useHead({ title: "Аналітика | Lazni Kyiv" });
+  useHead({ title: "Аналітика" });
   
   try {
     const [bookingsData, guestsData] = await Promise.all([

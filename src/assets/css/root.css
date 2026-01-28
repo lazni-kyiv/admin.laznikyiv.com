@@ -17,7 +17,7 @@
 
 :root {
     /* Primary Colors */
-    --primary: #102724;
+    --primary: #102724 !important;
     --primary-light: #1d4641;
     --primary-hover: #245751;
     --primary-active: #1d4641;

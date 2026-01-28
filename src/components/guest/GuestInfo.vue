@@ -13,7 +13,7 @@
                 fill="white"></path>
             </svg>
           </button>
-           <button @click="showGuestHistory()">
+           <button @click="showGuestHistory()" v-if="canViewHistory"> 
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" class="injected-svg" data-src="https://cdn.hugeicons.com/icons/clock-02-stroke-rounded.svg?v=1.0.1" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" color="#ffffff">
 <path d="M5.04798 8.60657L2.53784 8.45376C4.33712 3.70477 9.503 0.999914 14.5396 2.34474C19.904 3.77711 23.0904 9.26107 21.6565 14.5935C20.2227 19.926 14.7116 23.0876 9.3472 21.6553C5.36419 20.5917 2.58192 17.2946 2 13.4844" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
 <path d="M12 8V12L14 14" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -129,9 +129,9 @@
           <div v-for="item in guestHistory" class="history-item" >
             <div :class="`history-item__header ${item.event}`">
               <span>
-                {{ item.event }}
+                {{ item.event }} 
               </span>
-              <p>{{ item.timestamp.split("T")[0].split("-").reverse().map(e => e.length == 4 ? e.slice(2,4) : e).join(".") }} {{ item.timestamp.split("T")[1].split(":").slice(0,2).join(":") }}</p>
+              <p>{{  formatAWTS(item.timestamp) }}</p>
             </div>
             <div class="history-item__body">
               <span>
@@ -189,6 +189,22 @@ const canUpdateGuests = computed(() => {
     }
   })
 })
+
+const canViewHistory = computed(() => {
+  if (!user.value?.teams) return false
+  
+  return user.value.teams.some(team => {
+    try {
+      const prefs = typeof team.prefs === 'string' 
+        ? JSON.parse(team.prefs) 
+        : team.prefs
+      
+      return prefs?.dev == 'true'
+    } catch {
+      return false
+    }
+  })
+})
 const props = defineProps({
     guest: {
         type: Object
@@ -224,26 +240,39 @@ function saveUser() {
 
 
 function formatAWTS(str) {
-    const date = str?.split("T")[0].split("-").reverse().map(e => e.length > 2 ? e.slice(2, 4)  : e).join(".")
-    const time = str?.split("T")[1].split(".")[0]
-    return [date, time].join(" ")
+  if (!str) return '';
+
+  const date = new Date(str);
+
+  // // add 2 hours
+  // date.setHours(date.getHours() + 2);
+
+  const d = String(date.getDate()).padStart(2, '0');
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const y = String(date.getFullYear()).slice(2);
+  const h = String(date.getHours()).padStart(2, '0');
+  const min = String(date.getMinutes()).padStart(2, '0');
+  const s = String(date.getSeconds()).padStart(2, '0');
+
+  return `${d}.${m}.${y} ${h}:${min}:${s}`;
 }
+
 const guestHistory = ref([])
 function showGuestHistory() {
-  fetch("https://api.laznikyiv.com/v2/lklg/guests.log")
-  .then(res => res.text())
+  fetch("https://api.laznikyiv.com/v2/logs/guests", {credentials: "include"})
+  .then(res => res.json()
   .then(text => {
-    const lines = text
-      .trim()                   // remove trailing line breaks
-      .split("\n")              // split each log entry
-      .map(l => l.replace(/,$/, "")) // remove trailing commas
-      .filter(l => l.length > 0);    // remove empty lines
-
+    text = text.content
+    
+    const lines = text            
+      .split("\n")           
+      .map(l => l.replace(/,$/, "")) 
+      .filter(l => l.length > 0);  
+    console.log(lines)
     const jsonArray = JSON.parse(`[${lines.join(",")}]`).reverse();
 guestHistory.value = jsonArray.filter(e => e.guest_id == props.guest.$id)
-     // console.log(jsonArray);     // ← valid array of logs!
     document.getElementById("history").showModal()
-  });
+  }));
 
 }
 function closeHistory() {

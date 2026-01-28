@@ -61,7 +61,10 @@
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue';
 import { api } from '@/assets/js/app';
-import { locked } from '@/stores/lock';
+import router from '@/router';
+import { useAppLock } from '@/stores/lock';
+const { lockApp, isLocked } = useAppLock()
+
 
 const guestTemplate = ref({});
 const dogovirModal = ref(null);
@@ -113,14 +116,33 @@ function openContract() {
 }
 
 const emit = defineEmits(['update:guest']);
+function normalizeGuest(g) {
+  return {
+    name: g.name?.trim() || '',
+    phone: g.phone?.replace(/\s+/g, '') || '',
+    birthday: g.birthday || '',
+    document: g.document?.trim() || ''
+  }
+}
+
+const originalGuest = ref(null)
 
 function initializeGuestTemplate() {
-  guestTemplate.value = {
-    name: props.guest.name || '',
-    birthday: props.guest.birthday || '',
-    phone: props.guest.phone || '',
-    document: props.guest.document || ''
-  };
+  const normalized = normalizeGuest(props.guest)
+
+  guestTemplate.value = { ...normalized }
+  originalGuest.value = { ...normalized }
+}
+function hasGuestChanged() {
+  const current = normalizeGuest(guestTemplate.value)
+  const original = originalGuest.value
+
+  return (
+    current.name !== original.name ||
+    current.phone !== original.phone ||
+    current.birthday !== original.birthday ||
+    current.document !== original.document
+  )
 }
 
 onMounted(() => {
@@ -199,7 +221,7 @@ async function createDogovir() {
       document: props.guest.document
     });
 
-  if (changed) {
+  if (hasGuestChanged()) {
     try {
       const res = await api.guests.update(props.guest.$id, {
         name: guestTemplate.value.name,
@@ -231,11 +253,13 @@ async function createDogovir() {
     `out=${encodeURIComponent(checkOut)}&` +
     `house=${encodeURIComponent(houseNames[props.booking.house] || '')}`;
 
-  locked.value = true;
+ 
   
   // Open the dogovir page which will call backend and update
-  const dogovirWindow = window.open(url, '_blank');
+  router.push(url)
+  lockApp()
   
+  //  locked.value = true;
   // Listen for messages from the dogovir window
   const messageHandler = async (event) => {
     // Verify origin for security
@@ -255,7 +279,7 @@ async function createDogovir() {
      
       } else if (event.data.type === 'dogovir-cancelled') {
         // Unlock admin panel if user closed without signing
-        locked.value = false;
+        lockApp()
         console.log('Dogovir cancelled by user');
       }
       

@@ -103,6 +103,7 @@
   --neutral-200: color-mix(in srgb, hsl(0 0% 82%), var(--primary) 15%);
   --neutral-100: color-mix(in srgb, hsl(0 0% 92%), var(--primary) 10%);
   --neutral-50: color-mix(in srgb, hsl(0 0% 97%), var(--primary) 5%);
+  --neutral-25: color-mix(in srgb, hsla(0, 0%, 97%, 0.412), var(--primary) 1%);
 
   /* ====================================================
      Semantic tokens
@@ -153,10 +154,10 @@
   /* ====================================================
      Shadows
      ==================================================== */
-  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.05);
-  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px rgb(0 0 0 / 0.15);
+  --shadow-xs: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
   /* ====================================================
      Typography & motion
