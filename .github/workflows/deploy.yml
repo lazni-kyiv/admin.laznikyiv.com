@@ -23,6 +23,11 @@ jobs:
 
       - name: Build project
         run: npm run build
+        
+      - name: Debug secrets
+        run: |
+          echo "USERNAME = ${{ secrets.USERNAME }}"
+          echo "HOST = ${{ secrets.HOST }}"
 
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
