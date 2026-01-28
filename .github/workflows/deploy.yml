@@ -13,16 +13,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
       - name: Build project
-        run: |
-          npm install
-          npm run build
+        run: npm run build
 
       - name: FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@4.6.0
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           local-dir: dist/
           server-dir: admin.laznikyiv.com/
+          protocol: ftp

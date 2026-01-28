@@ -311,4 +311,4 @@ if (window.location.href.includes("localhost")) {
  pwa.value = window.matchMedia("(display-mode: standalone)").matches;
 export { api, realtime, auth, client, functions, pwa };
 
-export const v = "2.3-29.01.26 beta";
+export const v = "2.2-29.01.26 beta";
