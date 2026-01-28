@@ -1,6 +1,7 @@
 // src/router/index.js
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, useRoute } from 'vue-router'
 import { useAuth } from '@/stores/auth'
+import { pwa } from '@/assets/js/app'
 
 const routes = [
   {
@@ -103,8 +104,14 @@ const router = createRouter({
 
 // Global navigation guard
 router.beforeEach(async (to, from, next) => {
+  const route = window.location.pathname
+  console.log(route)
+  if (!pwa.value && route !== '/') {
+    // redirect to Login page
+    window.location.href = "/"
+  }
+  
   const { verify, isAuthenticated, accessType } = useAuth()
-
 
 if (to.meta.requiresAuth) {
     // Verify authentication (uses cache if recent)

@@ -36,9 +36,9 @@
     </div>
   </div>
   <div class="content not-auth" v-else>
-    <h1>Lazni Kyiv</h1>
-
+    <h1>401</h1>
     <p>Доступ до панелі адміністрування заблоковано</p>
+    <span>{{ v }} &copy; {{ new Date().getFullYear() }} Lazni Kyiv</span>
   </div>
 </template>
 
@@ -294,7 +294,16 @@ button.auth-button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: none;
+  background-color: #f5f4f4 !important;
   gap: 0.5rem;
+}
+
+.content.not-auth span {
+  opacity: 0.6;
+  font-style: italic;
+  margin-top: 1rem;
+  font-size: 0.75rem
 }
 .content.not-auth h1 {
   font-family: "Lazni";
